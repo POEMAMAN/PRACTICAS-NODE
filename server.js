@@ -87,14 +87,15 @@
 require('./UTILS/db.js');
 const express = require('express');
 const router = express.Router()
-const Character = require('./models/Character')
+const Character = require('./models/Character');
+const Movies = require('./models/Movies.js');
 const PORT = 3000;
 const server = express();
 
 // Requerimos el archivo de configuración de nuestra DB
 
 
-//Aqui importamos eñl modulo Character
+//Aqui importamos el modulo Character
 // router.get('/characters', (req, res) => {
 //   return Character.find()
 //   .then(characters => {
@@ -144,6 +145,105 @@ router.get('/characters/age/:age', async (req, res) => {
     return res.status(200).json(characterByAge);
   } catch {
     return res.status(500).json(err)
+  }
+});
+
+//Aqui importamos el modulo Movies
+
+// router.get('/movies', (req, res) => {
+//   return Movies.find()
+//   .then(movies => {
+//       // Si encontramos las peliculas, los devolveremos al usuario (200 código ok)
+//       return res.status(200).json(movies);
+//   })
+//   .catch(err => {
+//       // Si hay un error, enviaremos por ahora una respuesta de error (500 error interno saervidor)
+//       return res.status(500).json(err);
+//   });
+// });
+
+
+
+// //Nueva collection movies//
+router.get('/movies', async (req, res) => {
+  try {
+    const movies = await Movies.find();
+    return res.status(200).json(movies)
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+//Buscar una pelicula por identificador//
+router.get('/movies/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const movies = await Movies.findById(id);
+    if (movies) {
+      return res.status(200).json(movies)
+    } else {
+      return res.status(404).json('No se ha encontrado')
+    }
+  }
+  catch (err) {
+    return res.status(500).send(err.message)
+  }
+});
+//Funciona//
+
+//Recuperar un elemento year//
+router.get('/movies/year/:year', async (req, res) => {
+  const { year } = req.params
+  try {
+    const moviesByYear = await Movies.find({year});
+    if (!moviesByYear.length) 
+    return res
+        .status(404)
+        .send(`No se han encontrado peliculas del año ${year} `);
+    return res.status(200).json(moviesByYear);
+  } catch {
+    return res.status(500).json('No hay concordancias')
+  }
+});
+//Recuperar un elemento "title"//
+router.get('/movies/title/:title', async (req, res) => {
+  const { title } = req.params
+  try {
+    const moviesByTitle = await Movies.find({title});
+    if (!moviesByTitle.length) 
+    return res
+        .status(404)
+        .send(`No se han encontrado peliculas con título ${title} `);
+    return res.status(200).json(moviesByTitle);
+  } catch {
+    return res.status(500).json('No hay concordancias')
+  }
+});
+//Recuperar un elemento "genre"//
+router.get('/movies/genre/:genre', async (req, res) => {
+  const { genre } = req.params
+  try {
+    const moviesByGenre = await Movies.find({genre});
+    if (!moviesByGenre.length) 
+    return res
+        .status(404)
+        .send(`No se han encontrado peliculas del ${genre} `);
+    return res.status(200).json(moviesByGenre);
+  } catch {
+    return res.status(500).json('No hay concordancias')
+  }
+});
+//Recuperar un elemento "director"//
+router.get('/movies/dirctor/:director', async (req, res) => {
+  const { director } = req.params
+  try {
+    const moviesByDirector = await Movies.find({director});
+    if (!moviesByDirector.length) 
+    return res
+        .status(404)
+        .send(`No se han encontrado peliculas del ${director} `);
+    return res.status(200).json(moviesByDirector);
+  } catch {
+    return res.status(500).json('No hay concordancias')
   }
 });
 
