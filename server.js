@@ -87,10 +87,14 @@
 require('./UTILS/db.js');
 const express = require('express');
 const router = express.Router()
-const Character = require('./models/Character');
-const Movies = require('./models/Movies.js');
+const Character = require('./models/character.model.js');
+const Movies = require('./models/movies.model.js');
+const Locations = require('./models/locations.model.js');
 const PORT = 3000;
 const server = express();
+const characterRoutes = require("../NODE_PRACTICAS/routes/character.routes.js")
+const locationRoutes = require("../NODE_PRACTICAS/routes/location.routes.js")
+
 
 // Requerimos el archivo de configuración de nuestra DB
 

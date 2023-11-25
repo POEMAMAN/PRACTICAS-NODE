@@ -16,6 +16,6 @@ const characterSchema = new Schema (
 )
 
 //Creamos las colleccion y le aplicamos el esquema que hemos creado//
-const Character = mongoose.model('Character', characterSchema);
+const Character = mongoose.model('character.model', characterSchema);
 //Module es sintaxis de Node//
 module.exports = Character;
